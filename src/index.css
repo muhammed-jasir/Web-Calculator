@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    @apply p-0 m-0 box-border font-mono;
+}
+
+body {
+    @apply bg-gray-50 text-black;
+}
+
+.operator {
+    @apply bg-gray-50 text-blue-600 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-gray-100;
+}
+
+.number {
+    @apply bg-gray-50 text-gray-900 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-gray-100;
+}
+
+.clear {
+    @apply  bg-gray-50 text-red-500 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-gray-100;
+}
+
+.equal {
+    @apply  bg-blue-700 text-slate-50 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-blue-600;
+}
