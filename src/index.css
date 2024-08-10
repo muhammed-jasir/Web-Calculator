@@ -11,19 +11,23 @@ body {
 }
 
 .operator-btn {
-    @apply bg-gray-50 text-blue-600 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-gray-100;
+    @apply bg-gray-50 text-blue-600 w-16 h-16 text-2xl border hover:shadow-lg rounded-2xl active:bg-gray-100;
 }
 
 .number-btn {
-    @apply bg-gray-50 text-gray-900 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-gray-100;
+    @apply bg-gray-50 text-gray-900 w-16 h-16 text-2xl border hover:shadow-lg rounded-2xl active:bg-gray-100;
 }
 
 .clear-btn {
-    @apply  bg-gray-50 text-red-500 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-gray-100;
+    @apply  bg-gray-50 text-red-500 w-16 h-16 text-2xl border hover:shadow-lg rounded-2xl active:bg-gray-100;
 }
 
 .equal-btn {
-    @apply  bg-blue-700 text-slate-50 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-blue-600;
+    @apply  bg-blue-700 text-slate-50 w-16 h-16 text-2xl border hover:shadow-lg rounded-2xl active:bg-blue-600;
+}
+
+.scientific-btn {
+    @apply bg-white text-gray-800 w-14 h-10 text-lg border hover:shadow-lg rounded-2xl active:bg-gray-100;
 }
 
 .operator {
@@ -36,4 +40,8 @@ body {
 
 .percent {
     @apply text-green-600
+}
+
+.operator-btn, .number-btn, .clear-btn, .equal-btn, .scientific-btn {
+    @apply transition duration-200 ease-in-out;
 }

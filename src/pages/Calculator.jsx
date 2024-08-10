@@ -35,6 +35,7 @@ const Calculator = () => {
     const handleCompute = () => {
         try {
             let updatedInput = handlePercent(input);
+            updatedInput = handleScientificFunction(updatedInput);
             let compute = eval(updatedInput);
 
             if (compute === Infinity || isNaN(compute)) {
@@ -46,6 +47,62 @@ const Calculator = () => {
         } catch (error) {
             setResult('Error');
         }
+    }
+
+    const handleScientificFunction = (input) => {
+        if (input.includes('sin')) {
+            return Math.sin(eval(input.replace('sin', '')));
+        }
+
+        if (input.includes('cos')) {
+            return Math.cos(eval(input.replace('cos', '')));
+        }
+
+        if (input.includes('tan')) {
+            return Math.tan(eval(input.replace('tan', '')));
+        }
+
+        if (input.includes('log')) {
+            return Math.log10(eval(input.replace('log', '')));
+        }
+
+        if (input.includes('ln')) {
+            return Math.log(eval(input.replace('ln', '')));
+        }
+
+        if (input.includes('√')) {
+            return Math.sqrt(eval(input.replace('√', '')));
+        }
+
+        if (input.includes('π')) {
+            return input.replace('π', Math.PI);
+        }
+
+        if (input.includes('e')) {
+            return input.replace('e', Math.E);
+        }
+
+        if (input.includes('!')) {
+            const factorial = (n) => {
+                if (n < 0) {
+                    return 'Error';
+                }
+                if (n === 0 || n === 1) {
+                    return 1;
+                }
+                return n * factorial(n - 1);
+            }
+
+            return factorial(eval(input.replace('!', '')));
+        }
+
+        if (input.includes('^')) {
+            let base = eval(input.split('^')[0]);
+            let exponent = eval(input.split('^')[1]);
+            return Math.pow(base, exponent);
+        }
+
+        return input;
     }
 
     const handleBracket = () => {
@@ -63,7 +120,7 @@ const Calculator = () => {
 
     const formatInput = (input) => {
         let inputArray = input.split('');
-    
+
         const formattedArray = inputArray.map((char, index) => {
             if (char === '*') {
                 return <span key={index} className="operator"> x </span>;
@@ -79,15 +136,14 @@ const Calculator = () => {
                 return char;
             }
         });
-    
+
         return formattedArray;
     };
-    
+
 
     const formatOutput = (output) => {
         let outputString = output.toString();
         let [integerPart, decimalPart] = outputString.split(".");
-
         let outputArray = integerPart.split("");
 
         if (outputArray.length > 3) {
@@ -106,22 +162,13 @@ const Calculator = () => {
 
     const validateInput = (value) => {
         const operators = ['+', '-', '*', '/', '%'];
-
         let lastInput = input.slice(-1);
 
-        if (input === '' && value === '-') {
-            return true;
-        }
-
-        if (input === '' && operators.includes(value)) {
+        if (input === '' && operators.includes(value) && value !== '-') {
             return false;
         }
 
         if (input.includes('.') && value === '.') {
-            return false;
-        }
-
-        if (lastInput === '(' && operators.includes(value)) {
             return false;
         }
 
@@ -133,14 +180,24 @@ const Calculator = () => {
             return false;
         }
 
+        if (lastInput === '(' && operators.includes(value) && value !== '-') {
+            return false;
+        }
+
+        if (value === ')' && operators.includes(lastInput)) {
+            return false;
+        }
+
         if (lastInput === '%' && operators.includes(value)) {
             return true;
         }
 
+        if (value === '%' && (operators.includes(lastInput) || lastInput === '' || lastInput === '(')) {
+            return false;
+        }
+
         return true;
     }
-
-
 
     const handleButton = (value) => {
         if (value === 'C') {
@@ -165,6 +222,25 @@ const Calculator = () => {
             <div className='bg-gray-100 flex flex-col w-full max-w-[375px] min-h-[640px] rounded-xl overflow-hidden'>
                 <div className='bg-slate-200 min-h-[200px] p-6 flex justify-end items-end flex-1'>
                     <DisplayScreen input={displayInput} result={result} />
+                </div>
+
+                <div className='overflow-x-auto scrollbar-hide pt-6 mx-6'>
+                    <div className='flex space-x-2'>
+                        <Button symbol='sin' className='scientific-btn' value='sin' handleClick={handleButton} />
+                        <Button symbol='cos' className='scientific-btn' value='cos' handleClick={handleButton} />
+                        <Button symbol='tan' className='scientific-btn' value='tan' handleClick={handleButton} />
+
+                        <Button symbol='π' className='scientific-btn' value='π' handleClick={handleButton} />
+                        <Button symbol='√' className='scientific-btn' value='√' handleClick={handleButton} />
+
+                        <Button symbol='!' className='scientific-btn' value='!' handleClick={handleButton} />
+                        <Button symbol='^' className='scientific-btn' value='^' handleClick={handleButton} />
+
+                        <Button symbol='e' className='scientific-btn' value='e' handleClick={handleButton} />
+
+                        <Button symbol='ln' className='scientific-btn' value='ln' handleClick={handleButton} />
+                        <Button symbol='log' className='scientific-btn' value='log' handleClick={handleButton} />
+                    </div>
                 </div>
 
                 <div className='px-6 pb-6 pt-4 grid grid-cols-4 grid-rows-5 gap-2 shadow-xl'>

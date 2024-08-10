@@ -14,7 +14,7 @@ const DisplayScreen = ({ input, result }) => {
         <div className='flex flex-col justify-end w-full text-right'>
             <div
                 ref={inputRef}
-                className='text-xl mb-2 w-full whitespace-nowrap overflow-x-auto scrollbar-hide'
+                className='text-2xl mb-2 w-full whitespace-nowrap overflow-x-auto scrollbar-hide'
             >
                 {input}
             </div>
