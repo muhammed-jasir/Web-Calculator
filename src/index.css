@@ -7,21 +7,33 @@
 }
 
 body {
-    @apply bg-gray-50 text-black;
+    @apply bg-gray-300 text-black;
 }
 
-.operator {
+.operator-btn {
     @apply bg-gray-50 text-blue-600 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-gray-100;
 }
 
-.number {
+.number-btn {
     @apply bg-gray-50 text-gray-900 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-gray-100;
 }
 
-.clear {
+.clear-btn {
     @apply  bg-gray-50 text-red-500 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-gray-100;
 }
 
-.equal {
+.equal-btn {
     @apply  bg-blue-700 text-slate-50 w-16 h-16 text-2xl border hover:shadow-inner rounded-2xl active:bg-blue-600;
+}
+
+.operator {
+    @apply text-red-600;
+}
+
+.brackets {
+    @apply text-blue-600;
+}
+
+.percent {
+    @apply text-green-600
 }
