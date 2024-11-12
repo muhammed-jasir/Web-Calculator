@@ -12,25 +12,17 @@ const Calculator = () => {
         setInput('');
         setDisplayInput('');
         setResult('');
-    }
+    };
 
     const handleBackspace = () => {
         let updatedInput = input.slice(0, -1);
         setInput(updatedInput);
         setDisplayInput(formatInput(updatedInput));
-    }
+    };
 
     const handlePercent = (input) => {
-        let inputArray = input.split("");
-
-        for (let i = 0; i < inputArray.length; i++) {
-            if (inputArray[i] == "%") {
-                inputArray[i] = "/100";
-            }
-        }
-
-        return inputArray.join("");
-    }
+        return input.split("%").join("/100");
+    };
 
     const handleCompute = () => {
         try {
@@ -38,16 +30,15 @@ const Calculator = () => {
             updatedInput = handleScientificFunction(updatedInput);
             let compute = eval(updatedInput);
 
-            if (compute === Infinity || isNaN(compute)) {
+            if (compute == Infinity || isNaN(compute)) {
                 setResult('Error');
+            } else {
+                setResult(formatOutput(parseFloat(compute.toFixed(5))));
             }
-
-            setResult(formatOutput(compute));
-
         } catch (error) {
             setResult('Error');
         }
-    }
+    };
 
     const handleScientificFunction = (input) => {
         if (input.includes('sin')) {
@@ -103,7 +94,7 @@ const Calculator = () => {
         }
 
         return input;
-    }
+    };
 
     const handleBracket = () => {
         let openBrackets = input.split('(').length - 1;
@@ -129,7 +120,7 @@ const Calculator = () => {
             } else if (char === '+' || char === '-') {
                 return <span key={index} className="operator"> {char} </span>;
             } else if (char === '(' || char === ')') {
-                return <span key={index} className="brackets"> {char} </span>;
+                return <span key={index} className="brackets">{char}</span>;
             } else if (char === '%') {
                 return <span key={index} className="percent"> % </span>;
             } else {
@@ -140,9 +131,14 @@ const Calculator = () => {
         return formattedArray;
     };
 
-
     const formatOutput = (output) => {
         let outputString = output.toString();
+        let isNegative = outputString.startsWith('-');
+
+        if (isNegative) {
+            outputString = outputString.slice(1);
+        }
+
         let [integerPart, decimalPart] = outputString.split(".");
         let outputArray = integerPart.split("");
 
@@ -157,6 +153,10 @@ const Calculator = () => {
             outputArray.push(decimalPart);
         }
 
+        if (isNegative) {
+            outputArray.unshift('-');
+        }
+
         return outputArray.join("");
     }
 
@@ -165,10 +165,6 @@ const Calculator = () => {
         let lastInput = input.slice(-1);
 
         if (input === '' && operators.includes(value) && value !== '-') {
-            return false;
-        }
-
-        if (input.includes('.') && value === '.') {
             return false;
         }
 
@@ -218,17 +214,17 @@ const Calculator = () => {
     }
 
     return (
-        <div className='flex flex-col items-center my-10 min-h-screen'>
-            <div className='bg-gray-100 flex flex-col w-full max-w-[375px] min-h-[640px] rounded-xl overflow-hidden'>
-                <div className='bg-slate-200 min-h-[200px] p-6 flex justify-end items-end flex-1'>
+        <div className='flex flex-col items-center my-5 md:my-10'>
+            <div className='bg-gray-100 flex flex-col w-full max-w-[370px] max-h-[670px] rounded-xl overflow-hidden'>
+                <div className='bg-slate-200 min-h-[200px] max-h-[200px] p-6 flex justify-end items-end flex-1'>
                     <DisplayScreen input={displayInput} result={result} />
                 </div>
 
                 <div className='overflow-x-auto scrollbar-hide pt-6 mx-6'>
                     <div className='flex space-x-2'>
-                        <Button symbol='sin' className='scientific-btn' value='sin' handleClick={handleButton} />
-                        <Button symbol='cos' className='scientific-btn' value='cos' handleClick={handleButton} />
-                        <Button symbol='tan' className='scientific-btn' value='tan' handleClick={handleButton} />
+                        <Button symbol='sin' className='scientific-btn' value='sin(' handleClick={handleButton} />
+                        <Button symbol='cos' className='scientific-btn' value='cos(' handleClick={handleButton} />
+                        <Button symbol='tan' className='scientific-btn' value='tan(' handleClick={handleButton} />
 
                         <Button symbol='π' className='scientific-btn' value='π' handleClick={handleButton} />
                         <Button symbol='√' className='scientific-btn' value='√' handleClick={handleButton} />
@@ -238,8 +234,8 @@ const Calculator = () => {
 
                         <Button symbol='e' className='scientific-btn' value='e' handleClick={handleButton} />
 
-                        <Button symbol='ln' className='scientific-btn' value='ln' handleClick={handleButton} />
-                        <Button symbol='log' className='scientific-btn' value='log' handleClick={handleButton} />
+                        <Button symbol='ln' className='scientific-btn' value='ln(' handleClick={handleButton} />
+                        <Button symbol='log' className='scientific-btn' value='log(' handleClick={handleButton} />
                     </div>
                 </div>
 
